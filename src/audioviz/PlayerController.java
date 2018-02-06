@@ -156,8 +156,8 @@ public class PlayerController implements Initializable {
             mediaPlayer.setAudioSpectrumInterval(updateInterval);
             mediaPlayer.setAudioSpectrumListener((double timestamp, double duration, float[] magnitudes, float[] phases) -> {
                 handleUpdate(timestamp, duration, magnitudes, phases);
-            });
-            filePathText.setText(file.getPath());
+            }); 
+           filePathText.setText(file.getPath());
         } catch (Exception ex) {
             errorText.setText(ex.toString());
         }
@@ -165,9 +165,9 @@ public class PlayerController implements Initializable {
     
     private void handleReady() {
         Duration duration = mediaPlayer.getTotalDuration();
-        lengthText.setText(duration.toString());
+        lengthText.setText(String.format("%.1f", duration.toMillis()));
         Duration ct = mediaPlayer.getCurrentTime();
-        currentText.setText(ct.toString());
+        currentText.setText(String.format("%.1f", ct.toMillis()));
         currentVisualizer.start(numBands, vizPane);
         timeSlider.setMin(0);
         timeSlider.setMax(duration.toMillis());
@@ -182,7 +182,7 @@ public class PlayerController implements Initializable {
     private void handleUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
         Duration ct = mediaPlayer.getCurrentTime();
         double ms = ct.toMillis();
-        currentText.setText(Double.toString(ms));
+        currentText.setText(String.format("%.1f", ms));
         timeSlider.setValue(ms);
         
         currentVisualizer.update(timestamp, duration, magnitudes, phases);
@@ -218,4 +218,3 @@ public class PlayerController implements Initializable {
            mediaPlayer.stop(); 
         }
     }
-}
