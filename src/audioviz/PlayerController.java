@@ -9,6 +9,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -152,6 +154,12 @@ public class PlayerController implements Initializable {
             mediaPlayer.setOnEndOfMedia(() -> {
                 handleEndOfMedia();
             });
+            timeSlider.valueProperty().addListener((Observable ov) ->
+            {
+                if (timeSlider.isValueChanging()) {
+                    mediaPlayer.seek(new Duration(timeSlider.getValue()));
+                }
+            });
             mediaPlayer.setAudioSpectrumNumBands(numBands);
             mediaPlayer.setAudioSpectrumInterval(updateInterval);
             mediaPlayer.setAudioSpectrumListener((double timestamp, double duration, float[] magnitudes, float[] phases) -> {
@@ -218,3 +226,4 @@ public class PlayerController implements Initializable {
            mediaPlayer.stop(); 
         }
     }
+}  
